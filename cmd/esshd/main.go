@@ -27,7 +27,7 @@ func main() {
 		log.Fatal("[!] Missing argument #2 (host:port).")
 	}
 	if len(os.Args) == 1 {
-		log.Fatal("[!] Missing argument #1 (executable path).")
+		log.Fatal("[!] Missing argument #1 (shell path).")
 	}
 	bin := os.Args[1]
 	port := os.Args[2]
@@ -37,7 +37,8 @@ func main() {
 			b, _ := ioutil.ReadFile("/esshd.txt")
 			s.Write(b)
 		}
-		cmd := exec.Command(bin)
+		cmd := exec.Command(bin, "-l")
+		cmd.Env = append(os.Environ(), "HOME=/")
 		ptyReq, winCh, isPty := s.Pty()
 		if isPty {
 			log.Println(fmt.Sprintf("[+] Connected SSH client (%s@%s).", s.User(), s.RemoteAddr()))
