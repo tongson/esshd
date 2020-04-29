@@ -15,6 +15,8 @@ import (
 	"github.com/gliderlabs/ssh"
 )
 
+const tip string = `[?] TIP: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o Port=%s %s`
+
 func setWinsize(f *os.File, w, h int) {
 	syscall.Syscall(syscall.SYS_IOCTL, f.Fd(), uintptr(syscall.TIOCSWINSZ),
 		uintptr(unsafe.Pointer(&struct{ h, w, x, y uint16 }{uint16(h), uint16(w), 0, 0})))
@@ -75,6 +77,6 @@ func main() {
 	}
 	log.Println("[+] Starting ephemeral sshd...")
 	log.Println(fmt.Sprintf("[+] Listening on %s:%s...", hp[0], hp[1]))
-	log.Println(fmt.Sprintf("[?] TIP:  ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o Port=%s %s", hp[1], hp[0]))
+	log.Println(fmt.Sprintf(tip, hp[1], hp[0]))
 	log.Fatal(ssh.ListenAndServe(port, nil))
 }
