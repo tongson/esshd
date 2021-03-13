@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -36,7 +35,7 @@ func main() {
 	ssh.Handle(func(s ssh.Session) {
 		_, err := os.Stat("/esshd.txt")
 		if err == nil {
-			b, _ := ioutil.ReadFile("/esshd.txt")
+			b, _ := os.ReadFile("/esshd.txt")
 			s.Write(b)
 		}
 		cmd := exec.Command(bin, "-l")
