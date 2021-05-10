@@ -32,7 +32,7 @@ func main() {
 	}
 	command := os.Args[1]
 	port := os.Args[2]
-	var commandStr string
+	var commandBin string
 	var argsSlice []string
 	commandSlice := strings.Fields(command)
 	commandBin = commandSlice[0]
