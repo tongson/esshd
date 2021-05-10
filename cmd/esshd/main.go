@@ -28,13 +28,12 @@ func main() {
 		log.Fatal("[!] Missing arguments.")
 	}
 	port := os.Args[1]
-	command := os.Args[2:]
-	var commandBin string
-	var argsSlice []string
-	commandSlice := strings.Fields(command)
-	commandBin = commandSlice[0]
-	if len(commandSlice) > 1 {
-		argsSlice = commandSlice[1:]
+	var cmd *exec.Cmd
+	if len(os.Args) > 3 {
+		argsSlice := os.Args[3:]
+		cmd = exec.Command(os.Args[2], argsSlice...)
+	} else {
+		cmd = exec.Command(os.Args[2])
 	}
 	ssh.Handle(func(s ssh.Session) {
 		_, err := os.Stat("/esshd.txt")
@@ -42,7 +41,6 @@ func main() {
 			b, _ := os.ReadFile("/esshd.txt")
 			s.Write(b)
 		}
-		cmd := exec.Command(commandBin, argsSlice...)
 		cmd.Env = append(os.Environ(), "HOME=/")
 		ptyReq, winCh, isPty := s.Pty()
 		if isPty {
