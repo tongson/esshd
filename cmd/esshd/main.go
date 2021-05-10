@@ -30,15 +30,22 @@ func main() {
 	if len(os.Args) == 1 {
 		log.Fatal("[!] Missing argument #1 (shell path).")
 	}
-	bin := os.Args[1]
+	command := os.Args[1]
 	port := os.Args[2]
+	var commandStr string
+	var argsSlice []string
+	commandSlice := strings.Fields(command)
+	commandBin = commandSlice[0]
+	if len(commandSlice) > 1 {
+		argsSlice = commandSlice[1:]
+	}
 	ssh.Handle(func(s ssh.Session) {
 		_, err := os.Stat("/esshd.txt")
 		if err == nil {
 			b, _ := os.ReadFile("/esshd.txt")
 			s.Write(b)
 		}
-		cmd := exec.Command(bin, "-l")
+		cmd := exec.Command(commandBin, argsSlice...)
 		cmd.Env = append(os.Environ(), "HOME=/")
 		ptyReq, winCh, isPty := s.Pty()
 		if isPty {
