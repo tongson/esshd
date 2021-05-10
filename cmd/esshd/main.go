@@ -24,14 +24,11 @@ func setWinsize(f *os.File, w, h int) {
 func main() {
 	log.SetFlags(0)
 	log.Println("[+] esshd v0.0.0 (2020-03-05)")
-	if len(os.Args) == 2 {
-		log.Fatal("[!] Missing argument #2 (host:port).")
+	if len(os.Args) < 3 {
+		log.Fatal("[!] Missing arguments.")
 	}
-	if len(os.Args) == 1 {
-		log.Fatal("[!] Missing argument #1 (shell path).")
-	}
-	command := os.Args[1]
-	port := os.Args[2]
+	port := os.Args[1]
+	command := os.Args[2:]
 	var commandBin string
 	var argsSlice []string
 	commandSlice := strings.Fields(command)
