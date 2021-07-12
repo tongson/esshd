@@ -7,12 +7,12 @@ Ephemeral SSHD for containers
 # Usage
 
 Set entrypoint to `esshd` executable location.
-Argument #1 set to the binary to execute upon SSH login.
-Argument #2 set to the host:port.
+Argument #1 set to the host:port.
+Argument #2 set to the binary or command line to execute upon SSH login.
 
 Example:
 
-    /esshd /bin/bash 127.0.0.1:2222
+    /esshd 127.0.0.1:2222 /bin/bash
 
 # Banner
 
